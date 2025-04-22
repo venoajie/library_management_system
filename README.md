@@ -29,6 +29,7 @@ Read | GET |/api/member|Read a collection of members.
 Create | POST |/api/member|Create a new member.
 Read | GET |/api/member\<lname>|Read a particular member.
 Update | UPDATE |/api/member\<lname>|Update an existing member.
+Delete | DELETE |/api/member\<lname>|Delete an existing member.
 
 
 - Books
