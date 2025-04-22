@@ -8,10 +8,10 @@
 - [ ] Learning interface for the project
 
       
-## Preliminary internal discusion
+## Which is better?
 - [] Data retainer? dict (json)--> only for proof of concepts
 - [] Folder structure
-- [] Flask dependencies
+- [] Flask dependencies (minimum/no dependencies)
 
 
 ### Resources to manage
@@ -36,6 +36,7 @@ Delete | DELETE |/api/member\<lname>|Delete an existing member.
 
 | Action         | Http Verb       | URL  Path       | Description       |               
 | :---         |     :---:      |     :---:      |     :---:      |  
+Read | GET |/api/book|Read a collection of books.
 Create | POST |/api/book|Create a new book.
 Read | GET |/api/book\<lname>|Read a particular book.
 Update | UPDATE |/api/book\<lname>|Update an existing book.
