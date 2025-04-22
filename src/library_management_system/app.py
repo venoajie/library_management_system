@@ -1,46 +1,53 @@
-# using flask_restful 
-from flask import Flask, jsonify, request 
-from flask_restful import Resource, Api 
-  
-# creating the flask app 
-app = Flask(__name__) 
-# creating an API object 
-api = Api(app) 
-  
-# making a class for a particular resource 
-# the get, post methods correspond to get and post requests 
-# they are automatically mapped by flask_restful. 
-# other methods include put, delete, etc. 
-class Hello(Resource): 
-  
-    # corresponds to the GET request. 
-    # this function is called whenever there 
-    # is a GET request for this resource 
-    def get(self): 
-  
-        return jsonify({'message': 'hello world'}) 
-  
-    # Corresponds to POST request 
-    def post(self): 
-          
-        data = request.get_json()     # status code 
-        return jsonify({'data': data}), 201
-  
-  
-# another resource to calculate the square of a number 
-class Square(Resource): 
-  
-    def get(self, num): 
-  
-        return jsonify({'square': num**2}) 
-  
-  
-# adding the defined resources along with their corresponding urls 
-api.add_resource(Hello, '/') 
-api.add_resource(Square, '/square/<int:num>') 
-  
-  
-# driver function 
-if __name__ == '__main__': 
-  
-    app.run(debug = True) 
+# -*- coding: utf-8 -*-
+
+from flask import Flask, render_template, request, jsonify
+from config import Config
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return render_template("home.html")
+
+members = [
+    {"id": 1, "name": "Thailand", "capital": "Bangkok", "area": 513120},
+    {"id": 2, "name": "Australia", "capital": "Canberra", "area": 7617930},
+    {"id": 3, "name": "Egypt", "capital": "Cairo", "area": 1010408},
+]
+
+def _find_next_id():
+    return max(member["id"] for member in members) + 1
+
+@app.get("/members")
+def get_members():
+    return jsonify(members)
+
+@app.post("/members")
+def add_member():
+    if request.is_json:
+        member = request.get_json()
+        member["id"] = _find_next_id()
+        members.append(member)
+        return member, 201
+    return {"error": "Request must be JSON"}, 415
+
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+
+    # Initialize Flask extensions here
+
+    # Registering blueprints 
+    from app.main import bp as main_bp
+    app.register_blueprint(main_bp)
+
+    @app.route('/test/')
+    def test_page():
+        return '<h1>Testing the Flask Application Factory Pattern</h1>'
+
+    return app
+
+if __name__ == "__main__":
+    #app.run(host="0.0.0.0", port=8000, debug=True)    
+    app.run(host="0.0.0.0", port=8000, debug=True)
+    

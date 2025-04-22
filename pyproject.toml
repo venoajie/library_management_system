@@ -1,10 +1,10 @@
 [project]
 name = "library-management-system"
 version = "0.1.0"
-description = "Add your description here"
+description = "Learning API for personal purpose"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "flask>=3.1.0",
-    "flask-restful>=0.3.10",
+    "Flask-SQLAlchemy==3.1.1"
 ]
